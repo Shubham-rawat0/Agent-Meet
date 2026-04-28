@@ -2,21 +2,14 @@
 "use client";
 
 import { useAuth } from "@clerk/nextjs";
-import { useRouter } from "next/navigation";
-import { useEffect } from "react";
+import { redirect } from "next/navigation";
 import { SignIn } from "@clerk/nextjs";
 
 export default function Page() {
-  const { userId, isLoaded } = useAuth();
-  const router = useRouter();
-
-  useEffect(() => {
-    if (isLoaded && userId) {
-      router.push("/");
-    }
-  }, [isLoaded, userId, router]);
-
-  if (!isLoaded) return null;
+  const { userId } = useAuth();
+  if (userId) {
+    redirect("/dashboard");
+  }
 
   return (
     <div className="flex min-h-screen items-center justify-center p-6">
@@ -37,7 +30,7 @@ export default function Page() {
         {/* Right */}
         <div className="hidden md:flex flex-col items-center justify-center bg-gradient-to-br from-green-900 to-green-700 text-white">
           <img src="/logo.svg" className="h-[90px] w-[90px]" />
-          <p className="text-2xl font-semibold mt-4">Meet.AI</p>
+          <p className="text-2xl font-semibold mt-4">AgentMeet</p>
         </div>
       </div>
     </div>

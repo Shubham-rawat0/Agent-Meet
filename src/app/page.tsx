@@ -1,8 +1,13 @@
 "use client";
 
 import Link from "next/link";
-
+import { useAuth } from "@clerk/nextjs";
+import { redirect } from "next/navigation";
 export default function Home() {
+    const { userId } = useAuth();
+    if (userId) {
+      redirect("/dashboard");
+    }
   return (
     <main className="flex flex-col items-center justify-center min-h-[calc(100vh-64px)] px-6 text-center">
       {/* Heading */}
@@ -26,7 +31,6 @@ export default function Home() {
       <p className="mt-6 text-sm text-gray-500">
         Start with a free trial. Upgrade anytime for advanced features.
       </p>
-
 
       <div className="mt-8 flex gap-4">
         <Link
