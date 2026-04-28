@@ -42,7 +42,6 @@ export const DashboardUserButton = () => {
   };
 
   const onBilling = () => {
-    // 👇 replace with your billing logic (Stripe / Polar etc.)
     router.push("/billing");
   };
 
@@ -52,7 +51,6 @@ export const DashboardUserButton = () => {
   const name = user.fullName || "User";
   const email = user.primaryEmailAddress?.emailAddress;
 
-  // ---------------- MOBILE ----------------
   if (isMobile) {
     return (
       <Drawer>
@@ -99,7 +97,6 @@ export const DashboardUserButton = () => {
     );
   }
 
-  // ---------------- DESKTOP ----------------
   return (
     <DropdownMenu>
       <DropdownMenuTrigger className="rounded-lg border border-border/10 p-3 w-full flex items-center justify-between bg-white/5 hover:bg-white/10 gap-x-2">
