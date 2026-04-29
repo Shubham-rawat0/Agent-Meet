@@ -10,7 +10,7 @@ export function Header() {
   if (!isLoaded) return null;
 
   return (
-    <header className="flex items-center justify-between  h-16 bg-[#061a15]/90 border-b">
+    <header className="flex fixed items-center w-full justify-between  h-16 bg-[#061a15]/90 border-b">
       <Link href="/" className="flex items-center gap-2 px-2 pt-2">
         <Image src="/logo.svg" height={36} width={36} alt="logo" />
         <p className="text-2xl text-white font-semibold">AgentMeet</p>

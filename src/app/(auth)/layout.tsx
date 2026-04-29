@@ -6,8 +6,8 @@ export default async function RootLayout({
   return (
     <html lang="en">
       <body>
-       
-          {children}
+        <div
+        className="pt-8 pl-75 fixed">{children}</div>
       </body>
     </html>
   );

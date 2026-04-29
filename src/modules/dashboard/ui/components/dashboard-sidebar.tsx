@@ -19,7 +19,7 @@ import {
   SidebarMenuItem,
 } from "@/components/ui/sidebar";
 import { DashboardUserButton } from "./dashboard-user-component";
-import { DashboardTrial } from "./dashboard-trial";
+// import { DashboardTrial } from "./dashboard-trial";
 
 const firstSection = [
   {
@@ -43,9 +43,13 @@ const secondSection = [
 ];
 
 export const DashboardSidebar = () => {
-  const pathname= usePathname()
+  const pathname = usePathname();
   return (
-    <Sidebar className="relative h-[calc(100vh-4rem)]">
+    <Sidebar
+      variant="inset"
+      collapsible="offcanvas"
+      className="mt-16 h-[calc(100vh-4rem)]"
+    >
       <div className="px-4">
         <Separator className="opacity-100 text-[#5D6B68]"></Separator>
       </div>
