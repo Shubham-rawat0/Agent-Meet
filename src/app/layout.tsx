@@ -1,7 +1,7 @@
 import { ClerkProvider } from "@clerk/nextjs";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
-
+import { TRPCReactProvider } from "@/trpc/client";
 import { Header } from "@/modules/header";
 
 const geistSans = Geist({
@@ -20,16 +20,18 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <ClerkProvider>
-      <html lang="en" suppressHydrationWarning>
-        <body
-          className={`${geistSans.variable} ${geistMono.variable} antialiased`}
-          suppressHydrationWarning
-        >
-          <Header />
-          {children}
-        </body>
-      </html>
-    </ClerkProvider>
+    <TRPCReactProvider>
+      <ClerkProvider>
+        <html lang="en" suppressHydrationWarning>
+          <body
+            className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+            suppressHydrationWarning
+          >
+            <Header />
+            {children}
+          </body>
+        </html>
+      </ClerkProvider>
+    </TRPCReactProvider>
   );
 }
