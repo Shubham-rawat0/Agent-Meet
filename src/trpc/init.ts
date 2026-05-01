@@ -5,23 +5,38 @@ import { initTRPC, TRPCError } from "@trpc/server";
 import { count, eq } from "drizzle-orm";
 import { headers } from "next/headers";
 import { cache } from "react";
-export const createTRPCContext = cache(async () => {
-  /**
-   * @see: https://trpc.io/docs/server/context
-   */
-  return { userId: "user_123" };
-});
-// Avoid exporting the entire t-object
-// since it's not very descriptive.
-// For instance, the use of a t variable
-// is common in i18n libraries.
-const t = initTRPC.create({
-  /**
-   * @see https://trpc.io/docs/server/data-transformers
-   */
-  // transformer: superjson,
-});
-// Base router and procedure helpers
+
+type Context = {
+  userId: string | null;
+};
+
+const t = initTRPC.context<Context>().create();
+
+import { getAuth } from "@clerk/nextjs/server";
+
+export const createContext = async ({ req }: { req: any }) => {
+  const { userId } = getAuth(req);
+  return {
+    userId,
+  };
+};
+
 export const createTRPCRouter = t.router;
 export const createCallerFactory = t.createCallerFactory;
 export const baseProcedure = t.procedure;
+
+export const protectedProcedure = baseProcedure.use(async ({ ctx, next }) => {
+  if (!ctx.userId) {
+    throw new TRPCError({
+      code: "UNAUTHORIZED",
+      message: "Unauthorized",
+    });
+  }
+
+  return next({
+    ctx: {
+      ...ctx,
+      userId: ctx.userId,
+    },
+  });
+});
