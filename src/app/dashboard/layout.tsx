@@ -8,13 +8,13 @@ interface Props {
 
 export default function Layout ({children}:Props){
     return (
-      <div className="fixed mt-16">
+      <div className="overflow-hidden">
         <SidebarProvider>
           <DashboardSidebar />
           <main className="flex flex-col h-screen w-screen bg-muted">
             <SidebarInset>
               <DashboardNavbar />
-              {children}
+              <>{children}</>
             </SidebarInset>
           </main>
         </SidebarProvider>

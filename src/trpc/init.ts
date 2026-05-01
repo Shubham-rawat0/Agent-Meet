@@ -14,7 +14,7 @@ const t = initTRPC.context<Context>().create();
 
 import { getAuth } from "@clerk/nextjs/server";
 
-export const createContext = async ({ req }: { req: any }) => {
+export const createTRPCContext = async ({ req }: { req: any }) => {
   const { userId } = getAuth(req);
   return {
     userId,
