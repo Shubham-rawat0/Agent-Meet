@@ -20,8 +20,9 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <TRPCReactProvider>
+  
       <ClerkProvider>
+          <TRPCReactProvider>
         <html lang="en" suppressHydrationWarning>
           <body
             className={`${geistSans.variable} ${geistMono.variable} antialiased`}
@@ -31,7 +32,8 @@ export default function RootLayout({
             {children}
           </body>
         </html>
+         </TRPCReactProvider>
       </ClerkProvider>
-    </TRPCReactProvider>
+   
   );
 }
