@@ -11,10 +11,10 @@ export default function Layout ({children}:Props){
       <div className="overflow-hidden">
         <SidebarProvider>
           <DashboardSidebar />
-          <main className="flex flex-col h-screen w-screen bg-muted">
+          <main className="flex flex-col h-screen w-screen ">
             <SidebarInset>
               <DashboardNavbar />
-              <>{children}</>
+              <div className="bg-muted h-screen">{children}</div>
             </SidebarInset>
           </main>
         </SidebarProvider>
