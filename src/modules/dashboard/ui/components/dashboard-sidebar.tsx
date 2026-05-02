@@ -45,11 +45,13 @@ const secondSection = [
 export const DashboardSidebar = () => {
   const pathname = usePathname();
   return (
-    <Sidebar
-      variant="inset"
-      collapsible="offcanvas"
-      className="mt-16 h-[calc(100vh-4rem)]"
-    >
+    <Sidebar>
+      <SidebarHeader className="text-sidebar-accent-foreground">
+        <Link href="/" className="flex items-center gap-2 px-2 pt-2">
+          <Image src="/logo.svg" height={36} width={36} alt="Meet.AI" />
+          <p className="text-2xl font-semibold">Meet.AI</p>
+        </Link>
+      </SidebarHeader>
       <div className="px-4">
         <Separator className="opacity-100 text-[#5D6B68]"></Separator>
       </div>

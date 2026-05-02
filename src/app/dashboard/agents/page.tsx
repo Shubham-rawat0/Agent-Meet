@@ -4,8 +4,16 @@ import { getQueryClient ,trpc} from "@/trpc/server"
 import { dehydrate, HydrationBoundary } from "@tanstack/react-query";
 import { ErrorBoundary } from "react-error-boundary";
 import { Suspense } from "react";
+import { AgentsListHeader } from "@/modules/agents/ui/components/agents-list-header";
+import { auth } from "@clerk/nextjs/server";
+import { redirect } from "next/navigation";
+async function page() {
+  const { userId } = await auth();
 
-function page() {
+  if (!userId) {
+    redirect("/sign-in")
+  }
+
   const queryClient = getQueryClient();
   void queryClient.prefetchQuery(trpc.agents.getMany.queryOptions()); //prefetching data
   // User Request
@@ -20,13 +28,16 @@ function page() {
   //   ↓
   // Hydrate(restoring server-fetched data into client cache) → persistent (session)
   return (
+    <>
+    <AgentsListHeader/>
     <HydrationBoundary state={dehydrate(queryClient)}>
       <Suspense fallback={<AgentsViewLoading/>}>
-      <ErrorBoundary fallback={<AgentsViewError/>}>
-      <AgentsView />
-      </ErrorBoundary>
+        <ErrorBoundary fallback={<AgentsViewError/>}>
+           <AgentsView />
+        </ErrorBoundary>
       </Suspense>
     </HydrationBoundary>
+    </>
   );
 }
 export default page
