@@ -34,7 +34,8 @@ async function page({searchParams}:Props) {
   //   ↓
   // Browser
   //   ↓
-  // Hydrate(restoring server-fetched data into client cache) → persistent (session)
+  // Hydrate(restoring server-fetched data into client cache) → persistent (session) , agentview will use this cached data in useSuspenseQuery
+
   return (
     <>
     <AgentsListHeader/>

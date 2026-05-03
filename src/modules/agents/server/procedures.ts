@@ -6,18 +6,28 @@ import { agentsInsertSchema } from "../schema";
 import z from "zod";
 import { and, count, desc, eq, getTableColumns, ilike, sql } from "drizzle-orm";
 import { DEFAULT_PAGE, DEFAULT_PAGE_SIZE, MAX_PAGE_SIZE, MIN_PAGE_SIZE } from "@/constant";
+import { randomInt } from "crypto";
 
 export const agentsRouter = createTRPCRouter({
 
   getOne: protectedProcedure
   .input(z.object({id:z.string()}))
-  .query(async ({input}) => {
+  .query(async ({input,ctx}) => {
     const [exsistingAgent] = await db.select({
         ...getTableColumns(agents),
-        meetingCount:sql<number>`7`
+        meetingCount:sql<number>`${randomInt(1,10)}`
     })
     .from(agents)
-    .where(eq(agents.id,input.id));
+    .where(
+      and(
+        eq(agents.id,input.id) , 
+        eq(agents.userId , ctx.userId)
+      ));
+
+      if(!exsistingAgent){
+        throw new TRPCError({code:"NOT_FOUND",message:"Agent not found"})
+      }
+
     return exsistingAgent;
   }),
 
@@ -31,19 +41,21 @@ export const agentsRouter = createTRPCRouter({
     )
     .query(async ({ctx,input}) => {
       const {search ,page ,pageSize} = input
-        const data = await db.select({
-          ...getTableColumns(agents),
-            meetingCount:sql<number>`7`
-      })
-    .from(agents)
-    .where(
-      and(
-        eq(agents.userId , ctx.userId),
-        search? ilike(agents.name , `%${search}%`):undefined
-      )
-    ).orderBy(desc(agents.createdAt ),desc(agents.id))
-    .limit(pageSize)
-    .offset((page-1)*pageSize)
+        const data = await db
+          .select({
+            ...getTableColumns(agents),
+            meetingCount: sql<number>`${randomInt(1, 10)}`,
+          })
+          .from(agents)
+          .where(
+            and(
+              eq(agents.userId, ctx.userId),
+              search ? ilike(agents.name, `%${search}%`) : undefined,
+            ),
+          )
+          .orderBy(desc(agents.createdAt), desc(agents.id))
+          .limit(pageSize)
+          .offset((page - 1) * pageSize);
 
     const [total] = await db.select(
       {count:count()})
