@@ -7,7 +7,15 @@ import { Suspense } from "react";
 import { AgentsListHeader } from "@/modules/agents/ui/components/agents-list-header";
 import { auth } from "@clerk/nextjs/server";
 import { redirect } from "next/navigation";
-async function page() {
+import { SearchParams } from "nuqs";
+import { loadSearchParams } from "@/modules/agents/param";
+
+interface Props{
+  searchParams:Promise<SearchParams>
+}
+
+async function page({searchParams}:Props) {
+  const filters =await loadSearchParams(searchParams)
   const { userId } = await auth();
 
   if (!userId) {
@@ -15,7 +23,7 @@ async function page() {
   }
 
   const queryClient = getQueryClient();
-  void queryClient.prefetchQuery(trpc.agents.getMany.queryOptions()); //prefetching data
+  void queryClient.prefetchQuery(trpc.agents.getMany.queryOptions({...filters})); //prefetching data
   // User Request
   //   ↓
   // Server (new QueryClient)
