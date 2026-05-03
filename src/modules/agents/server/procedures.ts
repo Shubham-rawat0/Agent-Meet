@@ -6,7 +6,6 @@ import { agentsInsertSchema } from "../schema";
 import z from "zod";
 import { and, count, desc, eq, getTableColumns, ilike, sql } from "drizzle-orm";
 import { DEFAULT_PAGE, DEFAULT_PAGE_SIZE, MAX_PAGE_SIZE, MIN_PAGE_SIZE } from "@/constant";
-import { Search } from "lucide-react";
 
 export const agentsRouter = createTRPCRouter({
 

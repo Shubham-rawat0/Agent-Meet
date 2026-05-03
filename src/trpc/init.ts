@@ -2,9 +2,6 @@ import { db } from "@/db";
 import { agents, meetings } from "@/db/schema";
 
 import { initTRPC, TRPCError } from "@trpc/server";
-import { count, eq } from "drizzle-orm";
-import { headers } from "next/headers";
-import { cache } from "react";
 
 type Context = {
   userId: string | null;
@@ -12,10 +9,12 @@ type Context = {
 
 const t = initTRPC.context<Context>().create();
 
-import { getAuth } from "@clerk/nextjs/server";
 
-export const createTRPCContext = async ({ req }: { req: any }) => {
-  const { userId } = getAuth(req);
+import { auth } from "@clerk/nextjs/server";
+
+export const createTRPCContext = async (): Promise<Context> => {
+  const { userId } = await auth();
+
   return {
     userId,
   };
