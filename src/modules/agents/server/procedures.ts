@@ -2,7 +2,7 @@ import { db } from "@/db";
 import { agents } from "@/db/schema";
 import {  createTRPCRouter, protectedProcedure } from "@/trpc/init";
 import { TRPCError } from "@trpc/server";
-import { agentsInsertSchema } from "../schema";
+import { agentsInsertSchema, agentsUpdateSchema } from "../schema";
 import z from "zod";
 import { and, count, desc, eq, getTableColumns, ilike, sql } from "drizzle-orm";
 import { DEFAULT_PAGE, DEFAULT_PAGE_SIZE, MAX_PAGE_SIZE, MIN_PAGE_SIZE } from "@/constant";
@@ -86,4 +86,45 @@ export const agentsRouter = createTRPCRouter({
 
       return createdAgent;
     }),
+
+    remove: protectedProcedure
+      .input(z.object({id:z.string()}))
+      .mutation(async ({ctx, input})=>{
+        const [removedAgent] = await db.delete(agents)
+          .where(
+            and(
+              eq(agents.id,input.id),
+              eq(agents.userId,ctx.userId)
+            )
+          )
+        .returning()
+
+        if(!removedAgent){
+          throw new TRPCError({
+            code:"UNAUTHORIZED",
+            message:"UNAUTHORIZED"
+          })
+        }
+
+        return removedAgent
+     }),
+       
+     update: protectedProcedure
+        .input(agentsUpdateSchema)
+        .mutation(async ({ctx , input})=>{
+          const [updatedAgent] = await db
+            .update(agents)
+            .set(input)
+            .where(and(eq(agents.id, input.id), eq(agents.userId, ctx.userId)))
+            .returning();
+
+          if (!updatedAgent){
+            throw new TRPCError({
+              code: "UNAUTHORIZED",
+              message: "UNAUTHORIZED",
+            });
+          }
+
+          return updatedAgent
+        })
 });
