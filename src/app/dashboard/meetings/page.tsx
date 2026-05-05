@@ -5,9 +5,16 @@ import { auth } from "@clerk/nextjs/server"
 import { dehydrate, HydrationBoundary } from "@tanstack/react-query"
 import { redirect } from "next/navigation"
 import { Suspense } from "react"
+import type { SearchParams } from "nuqs/server"
 import { ErrorBoundary } from "react-error-boundary"
+import { loadSearchParams } from "@/modules/meetings/param"
 
-async function  page() {
+interface Props{
+  searchParams : Promise<SearchParams>
+}
+
+async function  page({searchParams}:Props) {
+  const filters = await loadSearchParams(searchParams)
     const { userId } = await auth();
     
       if (!userId) {
@@ -15,7 +22,7 @@ async function  page() {
       }
     const queryClient =getQueryClient()
     void queryClient.prefetchQuery(
-        trpc.meetings.getMany.queryOptions({})
+        trpc.meetings.getMany.queryOptions({...filters})
     )
   return (
     <>
