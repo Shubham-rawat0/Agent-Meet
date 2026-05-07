@@ -11,10 +11,8 @@ import {
 import { MeetingIdViewHeader } from "../components/meeting-id-view-header";
 import { useRouter } from "next/navigation";
 import { useConfirm } from "@/hooks/use-confirm";
-import { UpdateAgentDialog } from "@/modules/agents/ui/components/update-agent-dialog";
 import { useState } from "react";
 import { UpdateMeetingDialog } from "../components/update-meeting-dialog";
-import { Divide } from "lucide-react";
 import UpcomingState from "../components/upcoming-state";
 import ActiveState from "../components/active-state";
 import CancelledState from "../components/cancelled-state";

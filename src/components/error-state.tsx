@@ -7,7 +7,7 @@ interface Props {
 
 export const ErrorState = ({ title, description }: Props) => {
   return (
-   <div className="ml-30 mt-20 fixed inset-0 flex items-center justify-center z-50">
+   <div className="flex items-center justify-center z-50">
   <div className="flex flex-col items-center justify-center gap-y-6 bg-background rounded-lg p-10 shadow-sm">
     <AlertCircleIcon className="size-6 text-red-500" />
     <div className="flex flex-col gap-y-2 text-center">
