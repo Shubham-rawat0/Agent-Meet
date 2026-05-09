@@ -7,7 +7,7 @@ import { Header } from "@/modules/header";
 export default function Home() {
     const { userId } = useAuth();
     if (userId) {
-      redirect("/dashboard");
+      redirect("/dashboard/agents");
     }
   return (
     <>
