@@ -4,7 +4,7 @@ import { LoaderIcon } from "lucide-react";
 
 import { useUser } from "@clerk/nextjs";
 import { generateAvatarUri } from "@/lib/avatar";
-import CallConnect from "./call-connect";
+import {CallConnect} from "./call-connect";
 
 
 interface Props {

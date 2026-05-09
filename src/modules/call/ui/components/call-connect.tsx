@@ -24,13 +24,13 @@ interface Props {
   userImage: string;
 }
 
-function CallConnect({
+export const CallConnect = ({
   meetingId,
   meetingName,
   userId,
   userName,
   userImage,
-}: Props) {
+}: Props) => {
   const trpc = useTRPC();
   const { mutateAsync: generateToken } = useMutation(
     trpc.meetings.generateToken.mutationOptions(),
@@ -54,10 +54,9 @@ function CallConnect({
       _client.disconnectUser();
       setClient(undefined);
     };
-  }, [userId, userImage, userName, generateToken]);
+  }, [userId, userName, userImage, generateToken]);
 
   const [call, setCall] = useState<Call>();
-
   useEffect(() => {
     if (!client) return;
 
@@ -84,11 +83,10 @@ function CallConnect({
   }
 
   return (
-  <StreamVideo client={client}>
-    <StreamCall call={call}>
-        <CallUI meetingName={meetingName}/>
-    </StreamCall>
-  </StreamVideo>
-  )
-}
-export default CallConnect;
+    <StreamVideo client={client}>
+      <StreamCall call={call}>
+        <CallUI meetingName={meetingName} />
+      </StreamCall>
+    </StreamVideo>
+  );
+};
