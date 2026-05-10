@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Markdown from "react-markdown";
 import {
   SparklesIcon,
   FileTextIcon,
@@ -11,12 +12,12 @@ import { format } from "date-fns";
 import { GeneratedAvatar } from "@/components/generated-avatar";
 import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import Markdown from "react-markdown"
+
 import { MeetingGetOne } from "../../types";
 import { Badge } from "@/components/ui/badge";
 import { formatDuration } from "@/lib/utils";
-// import { Transcript } from "./transcript";
-// import { ChatProvider } from "./chat-provider";
+import { Transcript } from "./transcript";
+import { ChatProvider } from "./chat-provider";
 
 interface Props {
   data: MeetingGetOne;
@@ -62,10 +63,10 @@ export const CompletedState = ({ data }: Props) => {
           </ScrollArea>
         </div>
         <TabsContent value="chat">
-          {/* <ChatProvider meetingId={data.id} meetingName={data.name} /> */}
+          <ChatProvider meetingId={data.id} meetingName={data.name} />
         </TabsContent>
         <TabsContent value="transcript">
-          {/* <Transcript meetingId={data.id} /> */}
+          <Transcript meetingId={data.id} />
         </TabsContent>
         <TabsContent value="recording">
           <div className="bg-white rounded-lg border px-4 py-5">
@@ -82,7 +83,7 @@ export const CompletedState = ({ data }: Props) => {
               <h2 className="text-2xl font-medium capitalize">{data.name}</h2>
               <div className="flex gap-x-2 items-center">
                 <Link
-                  href={`dashboard/agents/${data.agent.id}`}
+                  href={`/agents/${data.agent.id}`}
                   className="flex items-center gap-x-2 underline underline-offset-4 capitalize"
                 >
                   <GeneratedAvatar

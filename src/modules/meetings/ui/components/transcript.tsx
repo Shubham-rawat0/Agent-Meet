@@ -31,7 +31,7 @@ export const Transcript = ({ meetingId }: Props) => {
       <div className="relative">
         <Input
           placeholder="Search Transcript"
-          className="pl-7 h-9 w-[240px]"
+          className="pl-7 h-9 w-60"
           value={searchQuery}
           onChange={(e) => setSearchQuery(e.target.value)}
         />
@@ -60,7 +60,7 @@ export const Transcript = ({ meetingId }: Props) => {
                   </Avatar>
                   <p className="text-sm font-medium">{item.user.name}</p>
                   <p className="text-sm text-blue-500 font-medium">
-                    {format(new Date(0, 0, 0, 0, 0, 0, item.start_ts), "mm:ss")}
+                    {format(new Date(0, 0, 0, 0, 0, 0, Number(item.start_ts)), "mm:ss")}
                   </p>
                 </div>
                 <Highlighter
