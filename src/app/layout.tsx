@@ -2,7 +2,7 @@ import { ClerkProvider } from "@clerk/nextjs";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { TRPCReactProvider } from "@/trpc/client";
-import {NuqsAdapter} from "nuqs/adapters/next"
+import { NuqsAdapter } from "nuqs/adapters/next";
 import { Toaster } from "sonner";
 
 const geistSans = Geist({
@@ -21,20 +21,20 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <NuqsAdapter>
-      <ClerkProvider>
-        <TRPCReactProvider>
-          <html lang="en" suppressHydrationWarning>
-            <body
-              className={`${geistSans.variable} ${geistMono.variable} antialiased`}
-              suppressHydrationWarning
-            >
+    <html lang="en" suppressHydrationWarning>
+      <body
+        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+        suppressHydrationWarning
+      >
+        <ClerkProvider>
+          <TRPCReactProvider>
+            <NuqsAdapter>
               <Toaster />
               {children}
-            </body>
-          </html>
-        </TRPCReactProvider>
-      </ClerkProvider>
-    </NuqsAdapter>
+            </NuqsAdapter>
+          </TRPCReactProvider>
+        </ClerkProvider>
+      </body>
+    </html>
   );
 }
