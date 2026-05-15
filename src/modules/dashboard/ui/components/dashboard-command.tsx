@@ -22,7 +22,19 @@ export const DashboardCommand = ({ open, setOpen }: Props) => {
   const router = useRouter();
   const [search, setSearch] = useState("");
 
-
+  const trpc = useTRPC();
+  const meetings = useQuery(
+    trpc.meetings.getMany.queryOptions({
+      search,
+      pageSize: 100,
+    }),
+  );
+  const agents = useQuery(
+    trpc.agents.getMany.queryOptions({
+      search,
+      pageSize: 100,
+    }),
+  );
 
   return (
     <CommandResponsiveDialog
@@ -42,7 +54,17 @@ export const DashboardCommand = ({ open, setOpen }: Props) => {
               No meetings found
             </span>
           </CommandEmpty>
-         
+          {meetings.data?.items.map((meeting) => (
+            <CommandItem
+              onSelect={() => {
+                router.push(`/meetings/${meeting.id}`);
+                setOpen(false);
+              }}
+              key={meeting.id}
+            >
+              {meeting.name}
+            </CommandItem>
+          ))}
         </CommandGroup>
         <CommandGroup heading="Agents">
           <CommandEmpty>
@@ -50,7 +72,22 @@ export const DashboardCommand = ({ open, setOpen }: Props) => {
               No agents found
             </span>
           </CommandEmpty>
-         
+          {agents.data?.items.map((agent) => (
+            <CommandItem
+              onSelect={() => {
+                router.push(`/agents/${agent.id}`);
+                setOpen(false);
+              }}
+              key={agent.id}
+            >
+              <GeneratedAvatar
+                seed={agent.name}
+                variant="botttsNeutral"
+                className="size-5"
+              />
+              {agent.name}
+            </CommandItem>
+          ))}
         </CommandGroup>
       </CommandList>
     </CommandResponsiveDialog>

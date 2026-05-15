@@ -1,5 +1,5 @@
 import { db } from "@/db";
-import { agents } from "@/db/schema";
+import { agents, meetings } from "@/db/schema";
 import {  createTRPCRouter, premiumProcedure, protectedProcedure } from "@/trpc/init";
 import { TRPCError } from "@trpc/server";
 import { agentsInsertSchema, agentsUpdateSchema } from "../schema";
@@ -15,7 +15,7 @@ export const agentsRouter = createTRPCRouter({
   .query(async ({input,ctx}) => {
     const [exsistingAgent] = await db.select({
         ...getTableColumns(agents),
-        meetingCount:sql<number>`${randomInt(1,10)}`
+        meetingCount:db.$count(meetings , eq(agents.id,meetings.agentId))
     })
     .from(agents)
     .where(
@@ -44,7 +44,7 @@ export const agentsRouter = createTRPCRouter({
         const data = await db
           .select({
             ...getTableColumns(agents),
-            meetingCount: sql<number>`${randomInt(1, 10)}`,
+            meetingCount: db.$count(meetings, eq(agents.id, meetings.agentId)),
           })
           .from(agents)
           .where(
