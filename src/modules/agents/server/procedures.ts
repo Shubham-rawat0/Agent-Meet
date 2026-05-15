@@ -1,6 +1,6 @@
 import { db } from "@/db";
 import { agents } from "@/db/schema";
-import {  createTRPCRouter, protectedProcedure } from "@/trpc/init";
+import {  createTRPCRouter, premiumProcedure, protectedProcedure } from "@/trpc/init";
 import { TRPCError } from "@trpc/server";
 import { agentsInsertSchema, agentsUpdateSchema } from "../schema";
 import z from "zod";
@@ -76,7 +76,7 @@ export const agentsRouter = createTRPCRouter({
       }
     }),
 
-  create: protectedProcedure
+  create: premiumProcedure("agents")
     .input(agentsInsertSchema)
     .mutation(async ({ input, ctx }) => {
       const [createdAgent] = await db

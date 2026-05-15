@@ -19,7 +19,7 @@ import {
   SidebarMenuItem,
 } from "@/components/ui/sidebar";
 import { DashboardUserButton } from "./dashboard-user-component";
-// import { DashboardTrial } from "./dashboard-trial";
+import { DashboardTrial } from "./dashboard-trial";
 
 const firstSection = [
   {
@@ -38,7 +38,7 @@ const secondSection = [
   {
     icon: StarIcon,
     label: "Upgrade",
-    href: "/upgrade",
+    href: "/dashboard/upgrade",
   },
 ];
 
@@ -113,7 +113,7 @@ export const DashboardSidebar = () => {
         </SidebarGroup>
       </SidebarContent>
       <SidebarFooter className="text-white">
-        {/* <DashboardTrial /> */}
+        <DashboardTrial />
         <DashboardUserButton />
       </SidebarFooter>
     </Sidebar>

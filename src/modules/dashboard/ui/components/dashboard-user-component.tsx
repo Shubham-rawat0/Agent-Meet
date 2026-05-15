@@ -41,8 +41,24 @@ export const DashboardUserButton = () => {
     router.push("/sign-in");
   };
 
-  const onBilling = () => {
-    router.push("/billing");
+  const onBilling = async () => {
+    try {
+      const res = await fetch("/api/billing/portal", {
+        method: "POST",
+      });
+
+      if (!res.ok) {
+        throw new Error("Failed to open billing portal");
+      }
+
+      const data = await res.json();
+
+      if (data.url) {
+        window.location.href = data.url;
+      }
+    } catch (error) {
+      console.error(error);
+    }
   };
 
   if (!isLoaded || !user) return null;
